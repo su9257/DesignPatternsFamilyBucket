@@ -3,41 +3,34 @@ using System.Collections;
 
 namespace DesignPattern_TemplateMethod
 {
-	// 定義完整演算法各步驟及執行順序
-	public abstract class AbstractClass
+	public abstract class Template
 	{
 		public void TemplateMethod()
 		{
-			PrimitiveOperation1();
-			PrimitiveOperation2();
+			StepOne();
+			StepTwo();
+			StepThree();
 		}
-		protected abstract void PrimitiveOperation1();
-		protected abstract void PrimitiveOperation2();
+		protected abstract void StepOne();
+		protected abstract void StepTwo();
+		protected abstract void StepThree();
 	}
 
-	// 實作演算法各步驟
-	public class ConcreteClassA : AbstractClass
+	public class ConcreteTemplate : Template
 	{
-		protected override void PrimitiveOperation1()
+		protected override void StepOne()
 		{
-			Debug.Log("ConcreteClassA.PrimitiveOperation1");
+			Debug.Log($"{nameof(StepOne)}:打开冰箱门");
 		}
-		protected override void PrimitiveOperation2()
+
+        protected override void StepTwo()
 		{
-			Debug.Log("ConcreteClassA.PrimitiveOperation2");
+			Debug.Log($"{nameof(StepOne)}:大象塞进去");
 		}
-	}
-	
-	// 實作演算法各步驟
-	public class ConcreteClassB : AbstractClass
-	{
-		protected override void PrimitiveOperation1()
+
+		protected override void StepThree()
 		{
-			Debug.Log("ConcreteClassB.PrimitiveOperation1");
-		}
-		protected override void PrimitiveOperation2()
-		{
-			Debug.Log("ConcreteClassB.PrimitiveOperation2");
+			Debug.Log($"{nameof(StepOne)}:冰箱门关上");
 		}
 	}
 		

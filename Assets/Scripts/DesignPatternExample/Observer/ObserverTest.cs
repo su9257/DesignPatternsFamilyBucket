@@ -2,28 +2,18 @@
 using System.Collections;
 using DesignPattern_Observer;
 
-public class ObserverTest : MonoBehaviour {
+public class ObserverTest : MonoBehaviour
+{
 
-	// Use this for initialization
-	void Start () {
-		UnitTest();
-	}
-	
-	// Update is called once per frame
-	void UnitTest () 
-	{
-		// 主題
-		ConcreteSubject theSubject = new ConcreteSubject();
+    void Start()
+    {
+        ConcreteSubject subject = new ConcreteSubject();
 
-		// 加入觀察者
-		ConcreteObserver1 theObserver1 = new ConcreteObserver1(theSubject);
-		theSubject.Attach( theObserver1 );
-		theSubject.Attach( new ConcreteObserver2(theSubject) );
+        ConcreteObserver1 theObserver1 = new ConcreteObserver1(subject);
+        subject.RegisterObserver(theObserver1);
+        subject.RegisterObserver(new ConcreteObserver2(subject));
 
-		// 設定Subject
-		theSubject.SetState("Subject狀態1");
+        subject.SetState("发布订阅");
+    }
 
-		// 顯示狀態
-		theObserver1.ShowState();	
-	}
 }

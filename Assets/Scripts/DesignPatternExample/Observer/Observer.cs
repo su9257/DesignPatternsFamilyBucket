@@ -3,96 +3,75 @@ using System.Collections.Generic;
 
 namespace DesignPattern_Observer
 {
-	// 觀察者介面
-	public abstract class Observer
-	{
-		public abstract void Update();
-	}
 
-	// 主題介面
-	public abstract class Subject
-	{
-		List<Observer> m_Observers = new List<Observer>();
+    public interface ISubject
+    {
+        void NotifyObservers();
+        void RegisterObserver(IObserver observer);
+        void RemoveObserver(IObserver observer);
+    }
+    public class ConcreteSubject : ISubject
+    {
+        private IList<IObserver> observerList = new List<IObserver>();
+        private string subjectState;
+        public void SetState(string State)
+        {
+            subjectState = State;
+            NotifyObservers();
+        }
+        public void NotifyObservers()
+        {
+            for (int i = 0; i < observerList.Count; i++)
+            {
+                observerList[i].Update(subjectState);
+            }
+        }
 
-		// 加入觀察者
-		public void Attach(Observer theObserver)
-		{
-			m_Observers.Add( theObserver );
-		}
+        public void RegisterObserver(IObserver observer)
+        {
+            observerList.Add(observer);
+        }
 
-		// 移除觀察者
-		public void Detach(Observer theObserver)
-		{
-			m_Observers.Remove( theObserver );
-		}
+        public void RemoveObserver(IObserver observer)
+        {
+            observerList.Remove(observer);
+        }
+    }
 
-		// 通知所有觀察者
-		public void Notify()
-		{
-			foreach( Observer theObserver  in m_Observers)
-				theObserver.Update();
-		}
-	}
 
-	// 主題實作 
-	public class ConcreteSubject : Subject
-	{
-		string m_SubjectState;
-		public void SetState(string State)
-		{
-			m_SubjectState = State;
-			Notify();
-		}
+    public interface IObserver
+    {
+        void Update(string state);
+    }
 
-		public string GetState()
-		{
-			return m_SubjectState;
-		}
-	}
+    public class ConcreteObserver1 : IObserver
+    {
+        ISubject subject = null;
 
-	// 實作的Observer1
-	public class ConcreteObserver1 : Observer
-	{
-		string m_ObjectState;
+        public ConcreteObserver1(ISubject subject)
+        {
+            this.subject = subject;
+        }
 
-		ConcreteSubject m_Subject = null;
+        public void Update(string state)
+        {
+            Debug.Log($"{nameof(ConcreteObserver1)}+Update:{state}");
+        }
+    }
 
-		public ConcreteObserver1( ConcreteSubject theSubject)
-		{
-			m_Subject = theSubject;
-		}
+    public class ConcreteObserver2 : IObserver
+    {
+        ISubject subject = null;
 
-		// 通知Subject更新
-		public override void Update ()
-		{
-			Debug.Log ("ConcreteObserver1.Update");
-			// 取得Subject狀態
-			m_ObjectState = m_Subject.GetState();
-		}
+        public ConcreteObserver2(ISubject subject)
+        {
+            this.subject = subject;
+        }
 
-		public void ShowState()
-		{
-			Debug.Log ("ConcreteObserver1:Subject目前的主題:"+m_ObjectState);
-		}
-	}
+        public void Update(string state)
+        {
+            Debug.Log($"{nameof(ConcreteObserver2)}+Update:{state}");
+        }
+    }
 
-	// 實作的Observer2
-	public class ConcreteObserver2 : Observer
-	{			
-		ConcreteSubject m_Subject = null;
-	
-		public ConcreteObserver2( ConcreteSubject theSubject)
-		{
-			m_Subject = theSubject;
-		}
-		
-		// 通知Subject更新
-		public override void Update ()
-		{
-			Debug.Log ("ConcreteObserver2.Update");
-			// 取得Subject狀態
-			Debug.Log ("ConcreteObserver2:Subject目前的主題:"+m_Subject.GetState());
-		}		
-	}
-	
 }

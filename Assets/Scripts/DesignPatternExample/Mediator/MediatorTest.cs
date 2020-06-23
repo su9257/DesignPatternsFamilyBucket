@@ -2,29 +2,21 @@
 using System.Collections;
 using DesignPattern_Mediator;
 
-public class MediatorTest : MonoBehaviour {
+public class MediatorTest : MonoBehaviour
+{
 
-	// Use this for initialization
-	void Start () {	
-		UnitTest();
-	}
-	
-	// 
-	void UnitTest () 
-	{
-		// 產生仲介者
-		ConcreteMediator pMediator = new ConcreteMediator();
+    void Start()
+    {
+        ConcreteMediator mediator = new ConcreteMediator();
 
-		// 產生兩個Colleague
-		ConcreateColleague1 pColleague1 = new ConcreateColleague1(pMediator);
-		ConcreateColleague2 pColleague2 = new ConcreateColleague2(pMediator);
+        ConcreateGroup0 group0 = new ConcreateGroup0(mediator);
+        ConcreateGroup1 group1 = new ConcreateGroup1(mediator);
 
-		// 設定給仲介者
-		pMediator.SetColleageu1( pColleague1 );
-		pMediator.SetColleageu2( pColleague2 );
+        mediator.SetColleageu1(group0);
+        mediator.SetColleageu2(group1);
 
-		// 執行
-		pColleague1.Action();
-		pColleague2.Action();	
-	}
+        group0.Action();
+        group1.Action();
+    }
+
 }

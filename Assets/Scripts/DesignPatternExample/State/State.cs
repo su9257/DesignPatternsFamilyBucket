@@ -1,80 +1,82 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace DesignPattern_State
 {
-	// 持有目前的狀態,並將有關的訊息傳給狀態
-	public class Context
-	{
-		State	m_State = null;
 
-		public void Request(int Value)
-		{
-			m_State.Handle(Value);
-		}
+    public class Context
+    {
+        State state = null;
 
-		public void SetState(State theState )
-		{
-			Debug.Log ("Context.SetState:" + theState);
-			m_State = theState;
-		}
-	}
+        public void Change(string value)
+        {
+            state.Handle(value);
+        }
 
-	// 負責封裝當Context處於特定狀態時所該展現的行為
-	public abstract class State
-	{
-		protected Context m_Context = null;
+        public void SetState(State theState)
+        {
+            state = theState;
+        }
+    }
 
-		public State(Context theContext)
-		{
-			m_Context = theContext;
-		}			
-		public abstract void Handle(int Value);
-	}
+    public abstract class State
+    {
+        protected Context context = null;
 
-	// 狀態A
-	public class ConcreteStateA : State
-	{
-		public ConcreteStateA( Context theContext):base(theContext)
-		{}
+        public State(Context context)
+        {
+            this.context = context;
+        }
+        public abstract void Handle(string value);
+    }
+    public class ConcreteStateA : State
+    {
+        public ConcreteStateA(Context context) : base(context)
+        { }
 
-		public override void Handle (int Value)
-		{
-			Debug.Log ("ConcreteStateA.Handle");
-			if( Value > 10)
-				m_Context.SetState( new ConcreteStateB(m_Context));
-		}
+        public override void Handle(string value)
+        {
+            Debug.Log("ConcreteStateA.Handle");
+            if (value == "喜")
+                context.SetState(new ConcreteStateB(context));
+        }
 
-	}
+    }
+    public class ConcreteStateB : State
+    {
+        public ConcreteStateB(Context context) : base(context)
+        { }
 
-	// 狀態B
-	public class ConcreteStateB : State
-	{
-		public ConcreteStateB( Context theContext):base(theContext)
-		{}
-		
-		public override void Handle (int Value)
-		{
-			Debug.Log ("ConcreteStateB.Handle");
-			if( Value > 20)
-				m_Context.SetState( new ConcreteStateC(m_Context));
-		}
-		
-	}
+        public override void Handle(string value)
+        {
+            Debug.Log("ConcreteStateB.Handle");
+            if (value == "喜")
+                context.SetState(new ConcreteStateC(context));
+        }
 
-	// 狀態C
-	public class ConcreteStateC : State
-	{
-		public ConcreteStateC( Context theContext):base(theContext)
-		{}
-		
-		public override void Handle (int Value)
-		{
-			Debug.Log ("ConcreteStateC.Handle");
-			if( Value > 30)
-				m_Context.SetState( new ConcreteStateA(m_Context));
-		}		
-	}
+    }
+    public class ConcreteStateC : State
+    {
+        public ConcreteStateC(Context context) : base(context)
+        { }
 
+        public override void Handle(string value)
+        {
+            Debug.Log("ConcreteStateC.Handle");
+            if (value == "喜")
+                context.SetState(new ConcreteStateA(context));
+        }
+    }
+    public class ConcreteStateD : State
+    {
+        public ConcreteStateD(Context context) : base(context)
+        { }
+
+        public override void Handle(string value)
+        {
+            Debug.Log("ConcreteStateC.Handle");
+            if (value == "乐")
+                context.SetState(new ConcreteStateA(context));
+        }
+    }
 
 }

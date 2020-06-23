@@ -1,3 +1,7 @@
 Temp/
 Library/
 Logs/
+Assembly-CSharp.csproj
+DesignPatternsFamilyBucket.sln
+.vs/DesignPatternsFamilyBucket/v16/.suo
+obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache

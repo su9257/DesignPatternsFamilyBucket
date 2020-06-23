@@ -2,22 +2,22 @@
 using System.Collections;
 using DesignPattern_State;
 
-public class StateTest : MonoBehaviour {
+public class StateTest : MonoBehaviour
+{
+    void Start()
+    {
+        UnitTest();
+    }
 
-	// Use this for initialization
-	void Start () {
-		UnitTest();	
-	}
-	
-	// 
-	void UnitTest () 
-	{
-		Context theContext = new Context();
-		theContext.SetState( new ConcreteStateA( theContext ));
-		theContext.Request( 5 );
-		theContext.Request( 15 );
-		theContext.Request( 25 );
-		theContext.Request( 35 );
 
-	}
+    void UnitTest()
+    {
+        Context context = new Context();
+        context.SetState(new ConcreteStateA(context));
+
+        context.Change("喜");
+        context.Change("怒");
+        context.Change("哀");
+        context.Change("乐");
+    }
 }
